@@ -1,53 +1,14 @@
 ---
-title: picoMini by redpwn 2021
-date: 2021-05-15
-slug: /writeups/picomini-redpwn
-excerpt: Writeups for login (web) and advanced-potion-making (forensics).
+title: picoMini by redpwn 2021 - advanced-potion-making (forensics)
+date: 2021-05-11
+slug: /writeups/picomini-redpwn-apm
+excerpt: Fixing a corrupt PNG file
 author: Anna Hsu
 ---
-The picoCTF team decided to host picoMini by redpwn in the midst of AP and finals cram season, which was unfortunate. However, I did solve their two lowest level challenges, and their detailed step-by-step solutions are below. If you're a beginner, I hope you find this helpful!
-
-## web - login
-### Description
-> My dog-sitter's brother made this website but I can't get in; can you help?
->
-> login.mars.picoctf.net
-
-### Solution
-On first inspection, when faced with a [login screen](https://login.mars.picoctf.net), it seems like SQL injection, because isn't that what always happens with logins in CTFs? However, it's a lot simpler than that. After navigating to website source, we encounter `index.js`. Upon pretty-printing, it's just vanilla JS.
-
-```js
-(async()=>{
-    await new Promise((e=>window.addEventListener("load", e))),
-    document.querySelector("form").addEventListener("submit", (e=>{
-        e.preventDefault();
-        const r = {
-            u: "input[name=username]",
-            p: "input[name=password]"
-        }
-          , t = {};
-        for (const e in r)
-            t[e] = btoa(document.querySelector(r[e]).value).replace(/=/g, "");
-        return "YWRtaW4" !== t.u ? alert("Incorrect Username") : "cGljb0NURns1M3J2M3JfNTNydjNyXzUzcnYzcl81M3J2M3JfNTNydjNyfQ" !== t.p ? alert("Incorrect Password") : void alert(`Correct Password! Your flag is ${atob(t.p)}.`)
-    }
-    ))
-}
-)();
-```
-The important part of the code is in line 12, where it's checking for a username and password that has been turned into Base64 from ASCII via the `btoa()` method, which is reversible with the `atob()` method. The password itself is the flag when decoded. Opening the console and running `atob("cGljb0NURns1M3J2M3JfNTNydjNyXzUzcnYzcl81M3J2M3JfNTNydjNyfQ")` results in the flag.
-
-If you're not convinced it's the real flag, you can decode the username (`admin`) and input both into the login form, which results in an alert announcing the flag.
-
-### Flag
-```
-picoCTF{53rv3r_53rv3r_53rv3r_53rv3r_53rv3r}
-```
-
-## forensics - advanced-potion-making
-### Description
+# Description
 > Ron just found his own copy of advanced potion making, but its been corrupted by some kind of spell. Help him recover it!
 
-### Solution
+# Solution
 Ah, forensics. The challenge-provided `advanced-potion-making` has no file extension, but it's probably a good bet to say it's a corrupted PNG file. `file advanced-potion-making` returned `advanced-potion-making: data` (unlikely to work, but it's worth a shot and certainly "obligatory" for forensics challenges).
 
 If a file is corrupted, it can be fixed with a hex editor such as [HexEd.it](https://hexed.it/). For a PNG file to be valid, it requires a PNG file signature and critical chunks of data. In the hex editor, we can change the incorrect parts of the chunks.
@@ -70,7 +31,7 @@ The hardest part of CTF really is reading the flag. For some reason, I thought t
 
 ![why was this so hard to read aaaaaaaaaaaaaaaaa](./flag.png)
 
-### Flag
+# Flag
 ```
 picoCTF{w1z4rdry}
 ```
