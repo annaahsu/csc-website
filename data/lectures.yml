@@ -134,3 +134,14 @@
   level: 2
   guest: true
   link: https://docs.google.com/presentation/d/1ugMtn5NykxS_3wii81JLs-Zew-S-BsYwqTQbnXxj7oA/edit?usp=sharing
+- title: 'Global Offset Table (GOT)'
+  date: 2021-05-12
+  body: 'How the Global Offset Table (GOT) works, and its use in binary exploitation.'
+  level: 3
+  link: https://docs.google.com/presentation/d/18g2zZWKuXBB7xgcjAdhIMxJA6sp4l0Oc3fzxCX1xeLE/edit?usp=sharing
+- title: 'IDOR'
+  date: 2021-05-12
+  body: 'Using IDOR to access unauthorized resources in web exploitation.'
+  level: 2
+  guest: true
+  link: https://docs.google.com/presentation/d/1bNmeokEDF8sMT8VV1-5zXl-_nFB2vwh-QPwHLOgt3a0/edit?usp=sharing
